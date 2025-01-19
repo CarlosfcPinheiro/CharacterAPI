@@ -41,5 +41,10 @@ const User = sequelize.define('user',
     }
 );
 
+// User table Assiciations
+User.hasMany(require('./char.js'), {
+    foreignKey: 'userid'
+});
+
 // Exporting user model
 module.exports = User;
