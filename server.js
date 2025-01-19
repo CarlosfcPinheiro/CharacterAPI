@@ -3,6 +3,9 @@ const morgan = require('morgan');
 const express = require('express');
 require('dotenv').config();
 
+// Database test connection
+const connectionTestSyncDB = require('./db/connectionTestSyncDB.js');
+
 // Config server
 const server = express();
 const port = 3000 || process.env.PORT;
@@ -18,11 +21,12 @@ server.get('/', (req, res) => {
 
 const mainStart = async () => {
     try{
+        await connectionTestSyncDB();
         server.listen(port, () => {
             console.log(`Listening server on port ${port}...`);
         });
     } catch(err){
-        console.log(err);
+        console.log('Error to start application: ' + err);
     }
 }
 

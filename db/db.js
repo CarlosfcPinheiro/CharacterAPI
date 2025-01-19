@@ -23,17 +23,15 @@ const sequelize = new Sequelize({
     },
 });
 
-// Testing DB connection
-const testDBConnection = async () => {
+// Synchronizing all models from DB
+const syncAllDBModels = async () => {
     try{
-        await sequelize.authenticate();
-        console.log("Test Database connection successfuly.");
-    } catch (e){
-        console.log("Connect Database Error: \n" + e);
+        await sequelize.sync({ alter:true });
+        console.log("All models were sync successfully!");
+    } catch(err){
+        console.log("Error during models sync.");
     }
 }
 
-testDBConnection();
-
 // Exporting sequelize instance
-module.exports = {sequelize, testDBConnection};
+module.exports = {sequelize, syncAllDBModels};
