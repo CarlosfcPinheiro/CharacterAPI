@@ -26,7 +26,7 @@ const mainStart = async () => {
             console.log(`Listening server on port ${port}...`);
         });
     } catch(err){
-        console.log(err);
+        console.log('Error to start application: ' + err);
     }
 }
 
