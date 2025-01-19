@@ -28,7 +28,7 @@ const syncAllDBModels = async () => {
     try{
         await sequelize.sync({ alter:true });
         console.log("All models were sync successfully!");
-    } catch(e){
+    } catch(err){
         console.log("Error during models sync.");
     }
 }
