@@ -16,7 +16,7 @@ const {
 } = require('../controllers/user.js');
 
 router.get('/', getAllUsers);
-router.get('/:id', getSingleUserById);
+router.get('/id/:id', getSingleUserById);
 router.get('/verify', verifyTokenUser);
 router.get('/logout', logoutUser);
 
@@ -25,4 +25,7 @@ router.post('/login', loginUser);
 
 router.delete('/', deleteUser);
 
-router.patch('/:id', changeCredentialsUser);
+router.patch('/id/:id', changeCredentialsUser);
+
+// Exporting User router
+module.exports = router;

@@ -1,9 +1,9 @@
 // Importing usefull packages
 const express = require('express');
-// Instance Rotuer class
+// Instance Router class
 const router = express.Router();
 
-// Importing Char controllers
+// Importing Char controller
 const {
     getAllChars,
     getCharsByUserId,
@@ -11,14 +11,17 @@ const {
     createChar,
     changeCharById,
     deleteCharById
-} = require('../controllers/user.js');
+} = require('../controllers/char.js');
 
 router.get('/', getAllChars);
-router.get('/:userid', getCharsByUserId);
-router.get('/single/:id', getSingleCharById);
+router.get('/userId/:userId', getCharsByUserId);
+router.get('/id/:id', getSingleCharById);
 
 router.post('/', createChar);
 
-router.patch('/:id', changeCharById);
+router.patch('/id/:id', changeCharById);
 
-router.delete('/:id', deleteCharById);
+router.delete('/id/:id', deleteCharById);
+
+// Exporting Char Router
+module.exports = router;
