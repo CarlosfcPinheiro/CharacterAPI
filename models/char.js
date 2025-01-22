@@ -53,8 +53,5 @@ const Char = sequelize.define('char',
     }
 );
 
-// User table Association
-Char.belongsTo(require('./user.js'));
-
 // Exporting char model
 module.exports = Char;
