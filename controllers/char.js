@@ -1,5 +1,3 @@
-// Importing usefull packages
-const express = require('express');
 // Importing models
 const Char = require('../models/char.js');
 const User = require('../models/user.js');
