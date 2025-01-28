@@ -1,18 +1,50 @@
-// Importing usefull packages
-const express = require('express');
-// Importing models
 const User = require('../models/user.js');
 const Char = require('../models/char.js');
+const { Op } = require('sequelize');
 
 // Creating User controllers
 const getAllUsers = async(req, res) => {
-    res.send('getAllUsers');
-    res.end();
+    try{
+        const {sortBy='username', order='ASC', username} = req.query;
+
+        const users = await User.findAll({
+            order: [[sortBy, order.toUpperCase()]],
+            where: {
+                username: {
+                    [Op.regexp]: username,
+                },
+            }
+        });
+        res.status(200).json({
+            users: users,
+            entities_count: Object.keys(users).length,
+        });
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'Error to get users.',
+            error: err.name,
+        });
+    }
 }
 
 const getSingleUserById = async(req, res) => {
-    res.send('getSingleUserById');
-    res.end();
+    const {id} = req.params;
+    try{
+        const user = await User.findByPk(id);
+        if (!user){
+            return res.status(404).json({
+                message: 'User not found'
+            });
+        }
+        res.status(200).json({user});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'Error to get single user.',
+            error: err.name,
+        });
+    }
 }
 
 const registerUser = async(req, res) => {
