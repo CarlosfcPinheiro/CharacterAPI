@@ -20,7 +20,7 @@ const User = sequelize.define('user',
             allowNull: false,
         },
         password:{
-            type: DataTypes.STRING(20),
+            type: DataTypes.STRING(60),
             allowNull: false,
         },
         char_count:{
