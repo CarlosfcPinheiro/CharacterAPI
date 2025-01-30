@@ -1,11 +1,14 @@
 const User = require('../models/user.js');
 const Char = require('../models/char.js');
+
+const {hashPassword, verifyPassword} = require('../utils/hash.js');
+
 const { Op } = require('sequelize');
 
 // Creating User controllers
 const getAllUsers = async(req, res) => {
     try{
-        const {sortBy='username', order='ASC', username} = req.query;
+        const {sortBy='username', order='ASC', username=""} = req.query;
 
         const users = await User.findAll({
             order: [[sortBy, order.toUpperCase()]],
@@ -34,22 +37,40 @@ const getSingleUserById = async(req, res) => {
         const user = await User.findByPk(id);
         if (!user){
             return res.status(404).json({
-                message: 'User not found'
+                message: 'User not found.'
             });
         }
         res.status(200).json({user});
     }catch(err){
         console.log(err);
         res.status(500).json({
-            message: 'Error to get single user.',
+            message: 'Error to get single user or Id is not well formatted.',
             error: err.name,
         });
     }
 }
 
 const registerUser = async(req, res) => {
-    res.send('createUser');
-    res.end();
+    let {username, email, password} = req.body;
+    const user = await User.findOne({
+        where:{
+            [Op.or]: [{username: username}, {email: email}]
+        }
+    });
+    if (user){
+        return res.status(409).json({
+            message: 'Username or email already being used.',
+        });
+    }
+
+    console.log(password);
+    password = await hashPassword(password);
+    const newUser = await User.create({username, email, password});
+
+    res.status(201).json({
+        message: 'User created successfuly.',
+        user: {newUser},
+    });
 } 
 
 const deleteUser = async(req, res) => {
