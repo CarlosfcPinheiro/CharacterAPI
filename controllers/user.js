@@ -51,31 +51,57 @@ const getSingleUserById = async(req, res) => {
 }
 
 const registerUser = async(req, res) => {
-    let {username, email, password} = req.body;
-    const user = await User.findOne({
-        where:{
-            [Op.or]: [{username: username}, {email: email}]
+    try{
+        let {username, email, password} = req.body;
+        const user = await User.findOne({
+            where:{
+                [Op.or]: [{username: username}, {email: email}]
+            }
+        });
+        if (user){
+            return res.status(409).json({
+                message: 'Username or email already being used.',
+            });
         }
-    });
-    if (user){
-        return res.status(409).json({
-            message: 'Username or email already being used.',
+
+        console.log(password);
+        password = await hashPassword(password);
+        const newUser = await User.create({username, email, password});
+
+        res.status(201).json({
+            message: 'User created successfuly.',
+            user: {newUser},
+        });
+    } catch(err){
+        res.status(500).json({
+            message: 'User was not created.',
+            error: err.name,
         });
     }
-
-    console.log(password);
-    password = await hashPassword(password);
-    const newUser = await User.create({username, email, password});
-
-    res.status(201).json({
-        message: 'User created successfuly.',
-        user: {newUser},
-    });
 } 
 
 const deleteUser = async(req, res) => {
-    res.send('deleteUser');
-    res.end();
+    try{
+        const {id} = req.params;
+        const user = await User.findByPk(id);
+
+        if (!user){
+            return res.status(404).json({
+                message: 'User not found.'
+            });
+        }
+
+        await user.destroy();
+        res.status(200).json({
+            message: 'User deleted successfully.'
+        });
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'User was not deleted.',
+            error: err.name,
+        });
+    }
 }
 
 const changeCredentialsUser = async(req, res) => {
