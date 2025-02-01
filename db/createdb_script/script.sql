@@ -3,7 +3,7 @@ SET search_path TO charapi;
 
 CREATE TABLE IF NOT EXISTS "user"(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    username VARCHAR(20) NOT NULL,
+    username VARCHAR(60) NOT NULL,
     email VARCHAR(30) NOT NULL,
     password VARCHAR(20),
     char_count INT NOT NULL,

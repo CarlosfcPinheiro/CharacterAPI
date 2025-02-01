@@ -20,7 +20,7 @@ const User = sequelize.define('user',
             allowNull: false,
         },
         password:{
-            type: DataTypes.STRING(20),
+            type: DataTypes.STRING(60),
             allowNull: false,
         },
         char_count:{
@@ -41,9 +41,15 @@ const User = sequelize.define('user',
     }
 );
 
-// User table Assiciations
-User.hasMany(require('./char.js'), {
-    foreignKey: 'userid'
+// Table associations
+const Char = require('./char.js');
+User.hasMany((Char), {
+    foreignKey: 'userid',
+    as: 'user'
+});
+Char.belongsTo(User, {
+    foreignKey: 'userid',
+    as: 'char'
 });
 
 // Exporting user model
