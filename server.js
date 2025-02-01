@@ -9,6 +9,7 @@ const corsConfig = require('./utils/cors.js');
 // Import Router
 const userRouter = require('./routes/user.js');
 const charRouter = require('./routes/char.js');
+const authRouter = require('./routes/auth.js');
 
 // Database test connection
 const connectionTestSyncDB = require('./db/connectionTestSyncDB.js');
@@ -21,8 +22,10 @@ const std_endpoint = '/api/v1'
 // Applying middlewares
 server.options('*', corsConfig);
 server.use(express.json());
+// Route middlewares
 server.use(`${std_endpoint}/user`, userRouter);
 server.use(`${std_endpoint}/char`, charRouter);
+server.use(`${std_endpoint}`, authRouter);
 // server.use(morgan('tiny'));
 server.use(morgan('dev'));
 

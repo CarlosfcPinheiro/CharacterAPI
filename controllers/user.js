@@ -1,9 +1,12 @@
 const User = require('../models/user.js');
 const Char = require('../models/char.js');
 
+const jwt = require('jsonwebtoken');
 const {hashPassword, verifyPassword} = require('../utils/hash.js');
 
 const { Op, where } = require('sequelize');
+
+require('dotenv').config();
 
 // Creating User controllers
 const getAllUsers = async(req, res) => {
@@ -128,21 +131,6 @@ const changeCredentialsUser = async(req, res) => {
     }
 }
 
-const loginUser = async(req, res) => {
-    res.send('loginUser');
-    res.end();
-}
-
-const verifyTokenUser = async(req, res) => {
-    res.send('verifyTokenUser');
-    res.end();
-}
-
-const logoutUser = async(req, res) => {
-    res.send('logoutUser');
-    res.end();
-}
-
 // Exporting methods
 module.exports = {
     getAllUsers,
@@ -150,7 +138,4 @@ module.exports = {
     registerUser,
     deleteUser,
     changeCredentialsUser,
-    loginUser,
-    verifyTokenUser,
-    logoutUser,
 }
