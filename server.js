@@ -44,3 +44,6 @@ const mainStart = async () => {
 
 // Start main function
 mainStart();
+
+// Importing express server instance
+module.exports = server;
