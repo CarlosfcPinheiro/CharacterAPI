@@ -3,7 +3,7 @@ const Char = require('../models/char.js');
 
 const {hashPassword, verifyPassword} = require('../utils/hash.js');
 
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 // Creating User controllers
 const getAllUsers = async(req, res) => {
@@ -105,8 +105,27 @@ const deleteUser = async(req, res) => {
 }
 
 const changeCredentialsUser = async(req, res) => {
-    res.send('changeCredentialsUSer');
-    res.end();
+    const {id} = req.params;
+    const data = req.body;
+
+    try{
+        const [updated] = await User.update(data,{ where: {id:id} });
+        if (!updated){
+            return res.status(204).end();
+        }
+
+        const user = await User.findByPk(id);
+        res.status(200).json({
+            message: 'User has been updated successfully.',
+            user: user,
+        });
+        
+    } catch(err){
+        res.status(500).json({
+            message: 'User was not updated.',
+            error: err.name,
+        });
+    }
 }
 
 const loginUser = async(req, res) => {
