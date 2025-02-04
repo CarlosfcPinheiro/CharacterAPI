@@ -1,0 +1,26 @@
+services:
+  app:
+    image: node:23-alpine
+    depends_on:
+      - postgres
+    command: sh -c "npm install && npm start"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      DB_HOST: postgres
+      DB_NAME: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: root
+
+  postgres:
+    image: postgres:17.2
+    volumes:
+      - charapi-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: root
+
+volumes:
+  charapi-data:
