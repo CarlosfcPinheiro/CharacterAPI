@@ -2,6 +2,8 @@
 const express = require('express');
 // Instance Router class
 const router = express.Router();
+// Importing middlewares
+const verifyToken = require('../middlewares/verifyToken.js');
 
 const {
     loginUser,
@@ -10,7 +12,7 @@ const {
 
 router.post('/login', loginUser);
 
-router.get('/verify', verifyTokenUser);
+router.get('/verify', verifyToken, verifyTokenUser);
 router.get('/logout', logoutUser);
 
 // Exporting auth router
