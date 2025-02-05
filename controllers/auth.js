@@ -42,13 +42,16 @@ const loginUser = async(req, res) => {
 }
 
 const verifyTokenUser = async(req, res) => {
-    res.send('verifyTokenUser');
-    res.end();
+    res.status(200).json({
+        message: 'Valid Token.',
+        user: req.user
+    });
 }
-
+// Remove token from client side
 const logoutUser = async(req, res) => {
-    res.send('logoutUser');
-    res.end();
+    res.status(200).json({
+        message: 'Logout successfully.'
+    });
 }
 
 // Exporting methods
