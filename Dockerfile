@@ -9,4 +9,4 @@ COPY . .
 # Exposes API Port
 EXPOSE 3000
 # Run bash-like command: create-db, migrations, seeders and api start
-CMD ["npx", "sequelize-cli", "db:create", "&&", "npx", "sequelize-cli", "db:migrate", "&&", "npx", "sequelize-cli", "db:seed:all", "&&", "npm", "start"]
+CMD npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm start
