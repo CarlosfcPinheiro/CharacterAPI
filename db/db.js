@@ -17,10 +17,6 @@ const sequelize = new Sequelize({
     password: password,
     port: port,
     database: db_name,
-
-    define: {
-        schema: 'charapi'
-    },
 });
 
 // Synchronizing all models from DB
