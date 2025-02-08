@@ -6,5 +6,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 # Copy all files
 COPY . .
-# Run application
-CMD ["npm", "start"]
+# Exposes API Port
+EXPOSE 3000
+# Run bash-like command: create-db, migrations, seeders and api start
+CMD ["npx", "sequelize-cli", "db:create", "&&", "npx", "sequelize-cli", "db:migrate", "&&", "npx", "sequelize-cli", "db:seed:all", "&&", "npm", "start"]
