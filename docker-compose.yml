@@ -3,7 +3,10 @@ services:
     image: node:23-alpine
     depends_on:
       - postgres
-    command: sh -c "npm install && npm start"
+    command: sh -c "npm install &&
+                    npx sequelize-cli db:migrate &&
+                    npx sequelize-cli db:seed:all &&
+                    npm start"
     ports:
       - 3000:3000
     working_dir: /app
@@ -19,13 +22,11 @@ services:
     image: postgres:17.2
     volumes:
       - charapi-data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_DB: charapi
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     ports:
       - "5432:5432"
-
 volumes:
   charapi-data:

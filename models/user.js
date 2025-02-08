@@ -9,6 +9,7 @@ const User = sequelize.define('user',
         id:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
+            allowNull: true,
             primaryKey: true
         },
         username:{
@@ -35,7 +36,6 @@ const User = sequelize.define('user',
 
     },
     {
-        schema: 'charapi',
         tableName: 'user',
         timestamps: false,
     }
