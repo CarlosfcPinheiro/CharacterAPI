@@ -21,6 +21,10 @@ const Char = sequelize.define('char',
             type: DataTypes.UUID,
             allowNull: false,
         },
+        charname:{
+            type: DataTypes.STRING(30),
+            allowNull: false
+        },
         face_type:{
             type: DataTypes.ENUM,
             values: FACE_ENUM,
@@ -43,11 +47,11 @@ const Char = sequelize.define('char',
         },
         created_at:{
             type: DataTypes.DATE,
+            allowNull: true,
             defaultValue: Sequelize.NOW,
         }
     },
     {
-       schema: 'charapi',
         tableName: 'char',
         timestamps: false,
     }
