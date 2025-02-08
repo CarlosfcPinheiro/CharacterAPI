@@ -1,0 +1,9 @@
+// Special configuration file to specify options to sequelize-cli
+const path = require('path');
+// Exporting options
+module.exports = {
+    'config': path.resolve('./config', 'config.js'),
+    'models-path': path.resolve('./models'),
+    'seeders-path': path.resolve('./seeders'),
+    'migrations-path': path.resolve('./migrations')
+}
