@@ -12,6 +12,7 @@ module.exports = {
         head_type: 'Triangle',
         accessory_type: 'Glasses',
         item_type: 'Cane',
+        created_at: new Date(),
       }
     ]);
   },
