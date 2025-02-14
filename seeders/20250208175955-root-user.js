@@ -11,6 +11,7 @@ module.exports = {
         username: 'root',
         email: 'root@gmail.com',
         password: hashedPassword,
+        created_at: new Date(),
       },
     ]);
   },

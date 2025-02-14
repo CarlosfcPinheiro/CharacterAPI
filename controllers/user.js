@@ -1,9 +1,8 @@
+// Importing Models
 const User = require('../models/user.js');
-const Char = require('../models/char.js');
-
-const jwt = require('jsonwebtoken');
+// Import hash functions
 const {hashPassword, verifyPassword} = require('../utils/hash.js');
-
+// Import operations
 const { Op, where } = require('sequelize');
 
 require('dotenv').config();

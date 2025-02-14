@@ -9,7 +9,6 @@ const User = sequelize.define('user',
         id:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
-            allowNull: true,
             primaryKey: true
         },
         username:{
@@ -45,11 +44,11 @@ const User = sequelize.define('user',
 const Char = require('./char.js');
 User.hasMany((Char), {
     foreignKey: 'userid',
-    as: 'user'
+    as: 'char'
 });
 Char.belongsTo(User, {
     foreignKey: 'userid',
-    as: 'char'
+    as: 'user-creator'
 });
 
 // Exporting user model
