@@ -1,7 +1,5 @@
 const User = require('../models/user.js');
-const Char = require('../models/char.js');
 
-const jwt = require('jsonwebtoken');
 const {hashPassword, verifyPassword} = require('../utils/hash.js');
 
 const { Op, where } = require('sequelize');
