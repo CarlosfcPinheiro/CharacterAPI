@@ -12,16 +12,18 @@ const {
     changeCharById,
     deleteCharById
 } = require('../controllers/char.js');
+// Importing Middlewares
+const verifyToken = require('../middlewares/verifyToken.js');
 
 router.get('/', getAllChars);
 router.get('/userId/:userId', getCharsByUserId);
 router.get('/id/:id', getSingleCharById);
 
-router.post('/', createChar);
+router.post('/', verifyToken, createChar);
 
-router.patch('/id/:id', changeCharById);
+router.patch('/id/:id', verifyToken, changeCharById);
 
-router.delete('/id/:id', deleteCharById);
+router.delete('/id/:id', verifyToken, deleteCharById);
 
 // Exporting Char Router
 module.exports = router;
