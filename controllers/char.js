@@ -1,5 +1,5 @@
 // Importing models
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const Char = require('../models/char.js');
 const User = require('../models/user.js');
 
@@ -49,8 +49,20 @@ const getCharsByUserId = async(req, res) => {
 }
 
 const getSingleCharById = async(req, res) => {
-    res.send('getSingleCharById');
-    res.send();
+    const {id} = req.params;
+    try{
+        const char = await Char.findByPk(id);
+        if (!char){
+            return res.status(404).json({
+                message: 'Char not found.'
+            });
+        }
+        res.status(200).json(char);
+    } catch(err){
+        res.status(500).json({
+            message: 'Error to get single char or Id is not well formatted.'
+        });
+    }
 }
 
 const createChar = async(req, res) => {
@@ -91,13 +103,58 @@ const createChar = async(req, res) => {
 }
 
 const changeCharById = async(req, res) => {
-    res.send('changeCharById');
-    res.end();
+    const {id} = req.params;
+    const data = req.body;
+    try{
+        const char = await Char.findByPk(id);
+        const differentUser = char.userid!=req.user.id ? true : false;
+        if (differentUser){
+            return res.status(404).json({
+                message: 'Action denied. Character was updated.'
+            });
+        }
+
+        const [updated] = await Char.update(data, { where:{id:id} });
+        if (!updated){
+            return res.status(204).end();
+        }
+        const updatedChar = await Char.findByPk(id);
+        res.status(200).json({
+            message: 'Character has been updated.',
+            char: updatedChar,
+        });
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'Character was not updated.',
+            error: err.name
+        });
+    }
 }
 
 const deleteCharById = async(req, res) => {
-    res.send('delteCharById');
-    res.end();
+    const {id} = req.params;
+    try{
+        const char = await Char.findByPk(id);
+        const differentUser = char.userid!=req.user.id ? true : false;
+        console.log(differentUser);
+        if (differentUser){
+            return res.status(401).json({
+                message: 'Action denied. Character was not deleted.'
+            });
+        }
+
+        await char.destroy();
+        res.status(200).json({
+            message: 'Character deleted successfully.'
+        });
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'Character was not deleted.',
+            error: err.name
+        });
+    }
 }
 
 // Exporting methods
