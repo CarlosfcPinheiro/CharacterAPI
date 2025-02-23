@@ -12,12 +12,14 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest"
+    "test": "jest --passWithNoTests --detectOpenHandles"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "jest": "^29.7.0",
     "morgan": "^1.10.0",
-    "sequelize-cli": "^6.6.2",
-    "supertest": "^7.0.0"
+    "sequelize-cli": "^6.6.2"
   }
 }
