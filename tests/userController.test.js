@@ -15,7 +15,7 @@ describe('User controller', () => {
         json: jest.fn()
     }
     it('Should register a new user successfully', async () => {
-        const request = {
+        const req = {
             body: {
                 username: 'test',
                 email: 'test@gmail.com',
@@ -25,17 +25,17 @@ describe('User controller', () => {
 
         hashPassword.mockResolvedValue('hashedPassword');
         User.create = jest.fn().mockResolvedValue({
-            ...request.body,
+            ...req.body,
             password: 'hashedPassword'
         });
 
-        await userController.registerUser(request, res);
+        await userController.registerUser(req, res);
 
-        expect(hashPassword).toHaveBeenCalledWith(request.body.password);
+        expect(hashPassword).toHaveBeenCalledWith(req.body.password);
 
         expect(User.create).toHaveBeenCalledTimes(1);
         expect(User.create).toHaveBeenCalledWith({
-            ...request.body,
+            ...req.body,
             password: 'hashedPassword'
         });
 
@@ -67,6 +67,27 @@ describe('User controller', () => {
         expect(res.json).toHaveBeenCalledWith({
             users: mockedUsers,
             entities_count: mockedUsers.length
+        });
+    });
+
+    it('Should delete an user by id', async () => {
+        const mockUser = {
+            destroy: jest.fn()
+        }
+        const req = { params:{ id : mockUser.id } }
+
+        User.findByPk = jest.fn().mockResolvedValue(mockUser);
+
+        await userController.deleteUser(req, res);
+        
+        expect(User.findByPk).toHaveBeenCalledTimes(1);
+        expect(User.findByPk).toHaveBeenCalledWith(req.params.id);
+
+        expect(mockUser.destroy).toHaveBeenCalledTimes(1);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'User deleted successfully.'
         });
     });
 });
