@@ -28,7 +28,6 @@ const getAllChars = async(req, res) => {
 
 const getCharsByUserId = async(req, res) => {
     const {userId} = req.params;
-    console.log(req.params);
     const {sortBy='charname', order='ASC'} = req.query;
     try{
         const chars = await Char.findAll({
@@ -137,7 +136,6 @@ const deleteCharById = async(req, res) => {
     try{
         const char = await Char.findByPk(id);
         const differentUser = char.userid!=req.user.id ? true : false;
-        console.log(differentUser);
         if (differentUser){
             return res.status(401).json({
                 message: 'Action denied. Character was not deleted.'
