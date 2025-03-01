@@ -22,7 +22,7 @@ const getAllUsers = async(req, res) => {
         });
         res.status(200).json({
             users: users,
-            entities_count: Object.keys(users).length,
+            entities_count: users.length,
         });
     } catch(err){
         console.log(err);
@@ -66,7 +66,6 @@ const registerUser = async(req, res) => {
             });
         }
 
-        console.log(password);
         password = await hashPassword(password);
         const newUser = await User.create({username, email, password});
 
