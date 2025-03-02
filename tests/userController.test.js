@@ -121,4 +121,25 @@ describe('User controller', () => {
             user: mockUser
         });
     });
+
+    it('Should get a single user by id', async () => {
+        const req = { params: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' }};
+        const mockUser = {
+            id: req.params.id,
+            username: "root",
+            email: "root@gmail.com",
+            password: "$2a$05$6G8VT.XP4TEh1fxPmbbNXehQuwFX.Io7YwAQnW3JlArER2G3Ze3OG",
+            char_count: 0,
+            created_at: "2025-02-23T21:26:57.988Z"
+        }
+        User.findByPk = jest.fn().mockResolvedValue(mockUser);
+
+        await userController.getSingleUserById(req, res);
+
+        expect(User.findByPk).toHaveBeenCalledTimes(1);
+        expect(User.findByPk).toHaveBeenCalledWith(req.params.id);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ user:mockUser});
+    });
 });
