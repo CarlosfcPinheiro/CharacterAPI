@@ -72,7 +72,8 @@ describe('User controller', () => {
 
     it('Should delete an user by id', async () => {
         const mockUser = {
-            destroy: jest.fn()
+            destroy: jest.fn(),
+            id: "505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7"
         }
         const req = { params:{ id : mockUser.id } }
 
@@ -88,6 +89,36 @@ describe('User controller', () => {
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
             message: 'User deleted successfully.'
+        });
+    });
+
+    it('Should change user credentials by id', async () => {
+        const req = {
+            params: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' },
+            body: { username: 'newUser', email: 'newUser@gmail.com' }
+        }
+        const mockUser = {
+            id: req.params.id,
+            username: req.body.username,
+            email: req.body.email
+        }
+        User.update = jest.fn().mockResolvedValue([1, 1]);
+        User.findByPk = jest.fn().mockResolvedValue(mockUser);
+
+        await userController.changeCredentialsUser(req, res);
+
+        expect(User.update).toHaveBeenCalledTimes(1);
+        expect(User.update).toHaveBeenCalledWith(req.body, {
+            where: {id:req.params.id}
+        });
+
+        expect(User.findByPk).toHaveBeenCalledTimes(1);
+        expect(User.findByPk).toHaveBeenCalledWith(req.params.id);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'User has been updated successfully.',
+            user: mockUser
         });
     });
 });
