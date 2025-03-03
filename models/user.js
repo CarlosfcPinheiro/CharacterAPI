@@ -40,16 +40,5 @@ const User = sequelize.define('user',
     }
 );
 
-// Table associations
-const Char = require('./char.js');
-User.hasMany((Char), {
-    foreignKey: 'userid',
-    as: 'char'
-});
-Char.belongsTo(User, {
-    foreignKey: 'userid',
-    as: 'user-creator'
-});
-
 // Exporting user model
 module.exports = User;
