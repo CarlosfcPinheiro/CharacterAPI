@@ -3,6 +3,9 @@ const morgan = require('morgan');
 const express = require('express');
 require('dotenv').config();
 
+// Import association
+require('./models/associations.js');
+
 // Import cors config
 const corsConfig = require('./utils/cors.js');
 

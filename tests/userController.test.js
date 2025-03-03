@@ -22,7 +22,6 @@ describe('User controller', () => {
                 password: 'test123!@#'
             }
         }
-
         hashPassword.mockResolvedValue('hashedPassword');
         User.create = jest.fn().mockResolvedValue({
             ...req.body,
@@ -46,8 +45,9 @@ describe('User controller', () => {
         });
     });
 
-    it('Should get all users', async () => {
-        const mockedUsers = [
+    it('Should get all users successfully', async () => {
+        const req = { query:{} };
+        const mockUsers = [
             {
                 id: "505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7",
                 username: "root",
@@ -57,25 +57,25 @@ describe('User controller', () => {
                 created_at: "2025-02-23T21:26:57.988Z" 
             }
         ];
-        User.findAll = jest.fn().mockResolvedValue(mockedUsers);
-        const req = { query:{} };
+        User.findAll = jest.fn().mockResolvedValue(mockUsers);
+
         await userController.getAllUsers(req, res);
 
         expect(User.findAll).toHaveBeenCalledTimes(1);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
-            users: mockedUsers,
-            entities_count: mockedUsers.length
+            users: mockUsers,
+            entities_count: mockUsers.length
         });
     });
 
-    it('Should delete an user by id', async () => {
+    it('Should delete an user by id successfully', async () => {
         const mockUser = {
-            destroy: jest.fn()
+            destroy: jest.fn(),
+            id: "505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7"
         }
         const req = { params:{ id : mockUser.id } }
-
         User.findByPk = jest.fn().mockResolvedValue(mockUser);
 
         await userController.deleteUser(req, res);
@@ -89,5 +89,56 @@ describe('User controller', () => {
         expect(res.json).toHaveBeenCalledWith({
             message: 'User deleted successfully.'
         });
+    });
+
+    it('Should change user credentials by id successfully', async () => {
+        const req = {
+            params: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' },
+            body: { username: 'newUser', email: 'newUser@gmail.com' }
+        }
+        const mockUser = {
+            id: req.params.id,
+            username: req.body.username,
+            email: req.body.email
+        }
+        User.update = jest.fn().mockResolvedValue([1, 1]);
+        User.findByPk = jest.fn().mockResolvedValue(mockUser);
+
+        await userController.changeCredentialsUser(req, res);
+
+        expect(User.update).toHaveBeenCalledTimes(1);
+        expect(User.update).toHaveBeenCalledWith(req.body, {
+            where: {id:req.params.id}
+        });
+
+        expect(User.findByPk).toHaveBeenCalledTimes(1);
+        expect(User.findByPk).toHaveBeenCalledWith(req.params.id);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            message: 'User has been updated successfully.',
+            user: mockUser
+        });
+    });
+
+    it('Should get a single user by id successfully', async () => {
+        const req = { params: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' }};
+        const mockUser = {
+            id: req.params.id,
+            username: "root",
+            email: "root@gmail.com",
+            password: "$2a$05$6G8VT.XP4TEh1fxPmbbNXehQuwFX.Io7YwAQnW3JlArER2G3Ze3OG",
+            char_count: 0,
+            created_at: "2025-02-23T21:26:57.988Z"
+        }
+        User.findByPk = jest.fn().mockResolvedValue(mockUser);
+
+        await userController.getSingleUserById(req, res);
+
+        expect(User.findByPk).toHaveBeenCalledTimes(1);
+        expect(User.findByPk).toHaveBeenCalledWith(req.params.id);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ user:mockUser});
     });
 });
