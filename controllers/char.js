@@ -36,7 +36,7 @@ const getCharsByUserId = async(req, res) => {
         });
         res.status(200).json({
             chars,
-            entities_count: Object.keys(chars).length,
+            entities_count: chars.length,
         });
     } catch(err){
         console.log(err);
