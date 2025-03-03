@@ -2,7 +2,7 @@
 const bcrypt = require('bcryptjs');
 
 // Generate hash
-let hashPassword = async(password) => {
+const hashPassword = async(password) => {
     const saltR = 5;
     const hashedPassword = await bcrypt.hash(password, saltR);
     
@@ -10,7 +10,7 @@ let hashPassword = async(password) => {
 }
 
 // Verify password
-let verifyPassword = async(password, hashedPassword) => {
+const verifyPassword = async(password, hashedPassword) => {
     const verify = bcrypt.compare(password, hashedPassword);
     return verify;
 }
