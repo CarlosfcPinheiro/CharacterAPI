@@ -41,10 +41,11 @@ const mainStart = async () => {
     try{
         await connectionTestSyncDB();
         server.listen(port, () => {
-            console.log(`Listening server on port ${port}...`);
+            console.log(`🟢 Start application successfully. Listening on port ${port}...`);
         });
     } catch(err){
-        console.log('Error to start application: ' + err);
+        console.log(`⚠️ Error to start application: ${err.message}`);
+        process.exit(1);
     }
 }
 
