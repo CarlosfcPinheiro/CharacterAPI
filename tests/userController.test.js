@@ -22,7 +22,6 @@ describe('User controller', () => {
                 password: 'test123!@#'
             }
         }
-
         hashPassword.mockResolvedValue('hashedPassword');
         User.create = jest.fn().mockResolvedValue({
             ...req.body,
@@ -46,8 +45,9 @@ describe('User controller', () => {
         });
     });
 
-    it('Should get all users', async () => {
-        const mockedUsers = [
+    it('Should get all users successfully', async () => {
+        const req = { query:{} };
+        const mockUsers = [
             {
                 id: "505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7",
                 username: "root",
@@ -57,26 +57,25 @@ describe('User controller', () => {
                 created_at: "2025-02-23T21:26:57.988Z" 
             }
         ];
-        User.findAll = jest.fn().mockResolvedValue(mockedUsers);
-        const req = { query:{} };
+        User.findAll = jest.fn().mockResolvedValue(mockUsers);
+
         await userController.getAllUsers(req, res);
 
         expect(User.findAll).toHaveBeenCalledTimes(1);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
-            users: mockedUsers,
-            entities_count: mockedUsers.length
+            users: mockUsers,
+            entities_count: mockUsers.length
         });
     });
 
-    it('Should delete an user by id', async () => {
+    it('Should delete an user by id successfully', async () => {
         const mockUser = {
             destroy: jest.fn(),
             id: "505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7"
         }
         const req = { params:{ id : mockUser.id } }
-
         User.findByPk = jest.fn().mockResolvedValue(mockUser);
 
         await userController.deleteUser(req, res);
@@ -92,7 +91,7 @@ describe('User controller', () => {
         });
     });
 
-    it('Should change user credentials by id', async () => {
+    it('Should change user credentials by id successfully', async () => {
         const req = {
             params: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' },
             body: { username: 'newUser', email: 'newUser@gmail.com' }
@@ -122,7 +121,7 @@ describe('User controller', () => {
         });
     });
 
-    it('Should get a single user by id', async () => {
+    it('Should get a single user by id successfully', async () => {
         const req = { params: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' }};
         const mockUser = {
             id: req.params.id,
