@@ -15,6 +15,7 @@ const loginUser = async(req, res) => {
         });
         if (!user){
             return res.status(404).json({
+                success: false,
                 message: `User with name ${username} not found.`,
             });
         }
@@ -22,12 +23,14 @@ const loginUser = async(req, res) => {
         const checkPassword = await verifyPassword(password, user.password);
         if (!checkPassword){
             return res.status(401).json({
+                success: false,
                 message: 'Invalid or wrong password.'
             });
         }
 
         const token = jwt.sign({id: user.id}, process.env.SECRET_KEY, {expiresIn: '1h'});
         res.status(200).json({
+            success: true,
             message: 'Login successfully.',
             id: user.id,
             authToken: token,
@@ -35,6 +38,7 @@ const loginUser = async(req, res) => {
     } catch(err){
         console.log(err);
         res.status(500).json({
+            success: false,
             message: 'User was not logged in.',
             error: err.name,
         });
@@ -42,16 +46,33 @@ const loginUser = async(req, res) => {
 }
 
 const verifyTokenUser = async(req, res) => {
-    res.status(200).json({
-        message: 'Valid Token.',
-        user: req.user
-    });
+    try{
+        res.status(200).json({
+            success: true,
+            message: 'Valid Token.',
+            user: req.user
+        });
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            message: 'Error during Token validation.'
+        });
+    }
 }
 // Remove token from client side
 const logoutUser = async(req, res) => {
-    res.status(200).json({
-        message: 'Logout successfully.'
-    });
+    try{
+        res.status(200).json({
+            success: true,
+            message: 'Logout successfully.'
+        });
+    } catch(err){
+        res.status(500).json({
+            success: false,
+            message: 'Error during logout user.'
+        });
+    }
 }
 
 // Exporting methods
