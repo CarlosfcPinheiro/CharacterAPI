@@ -16,7 +16,10 @@ const getAllChars = async(req, res) => {
                 }
             ]
         });
-        res.status(200).json(chars);
+        res.status(200).json({
+            success: true,
+            chars: chars
+        });
     } catch(err){
         console.log(err);
         res.status(500).json({
@@ -34,7 +37,8 @@ const getCharsByUserId = async(req, res) => {
             order: [[sortBy, order.toUpperCase()]],
         });
         res.status(200).json({
-            chars,
+            success: true,
+            chars: chars,
             entities_count: chars.length,
         });
     } catch(err){
