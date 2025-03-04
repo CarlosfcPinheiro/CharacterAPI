@@ -36,7 +36,10 @@ describe('Char controller', () => {
         expect(Char.findAll).toHaveBeenCalledTimes(1);
         
         expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith(mockChars);
+        expect(res.json).toHaveBeenCalledWith({
+            success: true,
+            chars: mockChars
+        });
     });
 
     it('Should get all chars by userId successfully', async () => {
@@ -81,6 +84,7 @@ describe('Char controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
+            success: true,
             chars: mockChars,
             entities_count: mockChars.length
         });
@@ -109,6 +113,9 @@ describe('Char controller', () => {
         expect(Char.findByPk).toHaveBeenCalledWith(req.params.id);
 
         expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith(mockChar);
+        expect(res.json).toHaveBeenCalledWith({
+            success: true,
+            char: mockChar
+        });
     });
 });
