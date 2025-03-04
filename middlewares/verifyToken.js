@@ -8,8 +8,9 @@ const verifyToken = (req, res, next) => {
     const token = req.header('Authorization');
     if (!token){
         return res.status(401).json({
+            success: false,
             message: 'Access denied. Token was not provided.'
-        })
+        });
     }
     // Verify Token
     try{
@@ -18,8 +19,9 @@ const verifyToken = (req, res, next) => {
         next();
     } catch(err){
         return res.status(401).json({
+            success: false,
             message: 'Invalid Token.'
-        })
+        });
     }
 }
 
