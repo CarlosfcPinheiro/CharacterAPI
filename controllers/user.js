@@ -45,7 +45,10 @@ const getSingleUserById = async(req, res) => {
                 message: 'User not found.'
             });
         }
-        res.status(200).json({user});
+        res.status(200).json({
+            success: true,
+            user: user
+        });
     }catch(err){
         console.log(err);
         res.status(500).json({
@@ -93,17 +96,17 @@ const deleteUser = async(req, res) => {
         const {id} = req.params;
         const user = await User.findByPk(id);
 
-        if (req.user.id!=user.id){
-            return res.status(403).json({
-                success: false,
-                message: 'Action denied. User token is different than id provided.'
-            });
-        }
-
         if (!user){
             return res.status(404).json({
                 success: false,
                 message: 'User not found.'
+            });
+        }
+
+        if (req.user.id!=user.id){
+            return res.status(403).json({
+                success: false,
+                message: 'Action denied. User token is different than id provided.'
             });
         }
 

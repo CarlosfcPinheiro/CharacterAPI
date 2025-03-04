@@ -40,8 +40,9 @@ describe('User controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.json).toHaveBeenCalledWith({
+            success: true,
             message: 'User created successfuly.',
-            user: {newUser: expect.anything()}
+            created_user: {newUser: expect.anything()}
         });
     });
 
@@ -65,6 +66,7 @@ describe('User controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
+            success: true,
             users: mockUsers,
             entities_count: mockUsers.length
         });
@@ -75,7 +77,10 @@ describe('User controller', () => {
             destroy: jest.fn(),
             id: "505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7"
         }
-        const req = { params:{ id : mockUser.id } }
+        const req = { 
+            params:{ id : mockUser.id },
+            user: { id: mockUser.id }
+        }
         User.findByPk = jest.fn().mockResolvedValue(mockUser);
 
         await userController.deleteUser(req, res);
@@ -87,6 +92,7 @@ describe('User controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
+            success: true,
             message: 'User deleted successfully.'
         });
     });
@@ -94,7 +100,8 @@ describe('User controller', () => {
     it('Should change user credentials by id successfully', async () => {
         const req = {
             params: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' },
-            body: { username: 'newUser', email: 'newUser@gmail.com' }
+            body: { username: 'newUser', email: 'newUser@gmail.com' },
+            user: { id:'505b22a9-2ca6-4f8f-9728-ce2ce5c44fd7' }
         }
         const mockUser = {
             id: req.params.id,
@@ -116,6 +123,7 @@ describe('User controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
+            success: true,
             message: 'User has been updated successfully.',
             user: mockUser
         });
@@ -139,6 +147,9 @@ describe('User controller', () => {
         expect(User.findByPk).toHaveBeenCalledWith(req.params.id);
 
         expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith({ user:mockUser});
+        expect(res.json).toHaveBeenCalledWith({
+            success: true,
+            user: mockUser
+        });
     });
 });
