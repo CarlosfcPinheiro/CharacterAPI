@@ -9,9 +9,8 @@ require('dotenv').config();
 
 // Creating User controllers
 const getAllUsers = async(req, res) => {
+    const {sortBy='username', order='ASC', username=""} = req.query;
     try{
-        const {sortBy='username', order='ASC', username=""} = req.query;
-
         const users = await User.findAll({
             order: [[sortBy, order.toUpperCase()]],
             where: {
@@ -60,8 +59,8 @@ const getSingleUserById = async(req, res) => {
 }
 
 const registerUser = async(req, res) => {
+    let {username, email, password} = req.body;
     try{
-        let {username, email, password} = req.body;
         const user = await User.findOne({
             where:{
                 [Op.or]: [{username: username}, {email: email}]
@@ -83,6 +82,7 @@ const registerUser = async(req, res) => {
             created_user: {newUser},
         });
     } catch(err){
+        console.log(err);
         res.status(500).json({
             success: false,
             message: 'User was not created.',
@@ -92,8 +92,8 @@ const registerUser = async(req, res) => {
 } 
 
 const deleteUser = async(req, res) => {
+    const {id} = req.params;
     try{
-        const {id} = req.params;
         const user = await User.findByPk(id);
 
         if (!user){
@@ -128,7 +128,6 @@ const deleteUser = async(req, res) => {
 const changeCredentialsUser = async(req, res) => {
     const { id } = req.params;
     const data = req.body;
-
     try{
         if (req.user.id!=id){
             return res.status(403).json({
@@ -152,6 +151,7 @@ const changeCredentialsUser = async(req, res) => {
             user: user,
         });
     } catch(err){
+        console.log(err);
         res.status(500).json({
             success: false,
             message: 'User was not updated.',

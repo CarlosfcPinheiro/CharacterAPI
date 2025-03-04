@@ -65,6 +65,7 @@ const getSingleCharById = async(req, res) => {
             char: char
         });
     } catch(err){
+        console.log(err);
         res.status(500).json({
             success: false,
             message: 'Error to get single char or Id is not well formatted.'
