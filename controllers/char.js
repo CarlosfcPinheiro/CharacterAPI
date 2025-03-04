@@ -1,5 +1,4 @@
 // Importing models
-const { Op, where } = require('sequelize');
 const Char = require('../models/char.js');
 const User = require('../models/user.js');
 
@@ -53,12 +52,17 @@ const getSingleCharById = async(req, res) => {
         const char = await Char.findByPk(id);
         if (!char){
             return res.status(404).json({
+                success: false,
                 message: 'Char not found.'
             });
         }
-        res.status(200).json(char);
+        res.status(200).json({
+            success: true,
+            char: char
+        });
     } catch(err){
         res.status(500).json({
+            success: false,
             message: 'Error to get single char or Id is not well formatted.'
         });
     }
@@ -75,7 +79,8 @@ const createChar = async(req, res) => {
         // Checks if the charname provided already in use
         if (char){
             return res.status(409).json({
-                message: 'The char with the provided charname already exists."='
+                success: false,
+                message: 'The char with the provided charname already exists.',
             });
         }
         const userid = req.user.id;
@@ -89,12 +94,14 @@ const createChar = async(req, res) => {
         });
 
         res.status(201).json({
+            success: true,
             message: 'Char created successfully.',
             newChar: newChar
         });
     } catch(err){
         console.log(err);
         res.status(500).json({
+            success: false,
             message: 'Character was not created.',
             error: err.name,
         });
@@ -106,9 +113,9 @@ const changeCharById = async(req, res) => {
     const data = req.body;
     try{
         const char = await Char.findByPk(id);
-        const differentUser = char.userid!=req.user.id ? true : false;
-        if (differentUser){
-            return res.status(404).json({
+        if (char.userid!=req.user.id){
+            return res.status(403).json({
+                success: false,
                 message: 'Action denied. Character was updated.'
             });
         }
@@ -119,12 +126,14 @@ const changeCharById = async(req, res) => {
         }
         const updatedChar = await Char.findByPk(id);
         res.status(200).json({
+            success: true,
             message: 'Character has been updated.',
             char: updatedChar,
         });
     } catch(err){
         console.log(err);
         res.status(500).json({
+            success: false,
             message: 'Character was not updated.',
             error: err.name
         });
@@ -135,20 +144,22 @@ const deleteCharById = async(req, res) => {
     const {id} = req.params;
     try{
         const char = await Char.findByPk(id);
-        const differentUser = char.userid!=req.user.id ? true : false;
-        if (differentUser){
-            return res.status(401).json({
+        if (char.userid!=req.user.id){
+            return res.status(403).json({
+                success: false,
                 message: 'Action denied. Character was not deleted.'
             });
         }
 
         await char.destroy();
         res.status(200).json({
+            success: true,
             message: 'Character deleted successfully.'
         });
     } catch(err){
         console.log(err);
         res.status(500).json({
+            success: false,
             message: 'Character was not deleted.',
             error: err.name
         });
