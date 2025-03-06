@@ -3,6 +3,10 @@ const morgan = require('morgan');
 const express = require('express');
 require('dotenv').config();
 
+// Swagger imports
+const swaggerUi = require('swagger-ui-express');
+const swaggerConfig = require('./utils/swaggerConfig.js');
+
 // Import association
 require('./models/associations.js');
 
@@ -31,6 +35,8 @@ server.use(`${std_endpoint}/char`, charRouter);
 server.use(`${std_endpoint}`, authRouter);
 // server.use(morgan('tiny'));
 server.use(morgan('dev'));
+// documentation
+server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
 server.get('/', (req, res) => {
     res.send('<h1>Welcome to charAPI!</h1>');
