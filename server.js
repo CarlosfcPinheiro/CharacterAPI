@@ -30,8 +30,8 @@ const std_endpoint = '/api/v1'
 server.options('*', corsConfig);
 server.use(express.json());
 // Route middlewares
-server.use(`${std_endpoint}/user`, userRouter);
-server.use(`${std_endpoint}/char`, charRouter);
+server.use(`${std_endpoint}/users`, userRouter);
+server.use(`${std_endpoint}/chars`, charRouter);
 server.use(`${std_endpoint}`, authRouter);
 // server.use(morgan('tiny'));
 server.use(morgan('dev'));
@@ -39,7 +39,8 @@ server.use(morgan('dev'));
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
 server.get('/', (req, res) => {
-    res.send('<h1>Welcome to charAPI!</h1>');
+    res.send(`<h1>Welcome to Charpi API!</h1>
+        <p>Access the docs in <strong>/docs</strong></p>`)
     res.end();
 });
 
