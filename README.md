@@ -1,6 +1,15 @@
 # Charpi
 A 2D character creator *REST API* to compose a full-stack application. The application was made to apply some concepts that I never used on my previous projects, so ignore the bugs :)
 
+## 📖 Summary
+- [Features](#-features)
+- [Tecnologies](#-tecnologies)
+- [How-to-Run-it-Locally](#-how-to-run-it-locally)
+    - [Requirements](#-requirements)
+    - [1.Clone-the-Repository](#1-clone-the-repository)
+    - [2.Run-docker-compose-file](#2-run-docker-compose-file)
+- [Routes](#routes)
+
 ## ⚙️ Features
 The application provides the features:
 - CRUD operations
