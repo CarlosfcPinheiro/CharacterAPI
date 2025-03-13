@@ -16,7 +16,7 @@ const verifyToken = require('../middlewares/verifyToken.js');
 
 /**
  * @swagger
- * /api/v1/users:
+ * /users:
  *   get:
  *     summary: Returns all users.
  *     tags:
@@ -117,7 +117,7 @@ router.get('/', getAllUsers);
  *                       format: date-time
  *                       example: "2025-02-14T20:07:15.166Z"
  */
-router.get('/id/:id', getSingleUserById);
+router.get('/:id', getSingleUserById);
 
 /**
  * @swagger
@@ -186,7 +186,7 @@ router.get('/id/:id', getSingleUserById);
  *                           type: string
  *                           example: "$2a$05$7jadWRdPTklY3A68D.XWi.rPNkPpIGM4EXhrjXwqoP43IrYQsVpvC"
  */
-router.post('/register', registerUser);
+router.post('/', registerUser);
 
 /**
  * @swagger
@@ -196,6 +196,8 @@ router.post('/register', registerUser);
  *     tags:
  *          - Users
  *     description: Remove an User by ID passed.
+ *     security:
+ *          - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -232,7 +234,7 @@ router.post('/register', registerUser);
  *                   type: string
  *                   example: "User not found."
  */
-router.delete('/id/:id', verifyToken, deleteUser);
+router.delete('/:id', verifyToken, deleteUser);
 
 /**
  * @swagger
@@ -242,6 +244,8 @@ router.delete('/id/:id', verifyToken, deleteUser);
  *     tags:
  *          - Users
  *     description: Changes one or more user fields by ID passed.
+ *     security:
+ *          - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -319,7 +323,7 @@ router.delete('/id/:id', verifyToken, deleteUser);
  *                   type: string
  *                   example: "User not found."
  */
-router.patch('/id/:id', verifyToken, changeCredentialsUser);
+router.patch('/:id', verifyToken, changeCredentialsUser);
 
 // Exporting User router
 module.exports = router;
