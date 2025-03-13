@@ -32,7 +32,7 @@ server.use(express.json());
 // Route middlewares
 server.use(`${std_endpoint}/users`, userRouter);
 server.use(`${std_endpoint}/chars`, charRouter);
-server.use(`${std_endpoint}`, authRouter);
+server.use(`${std_endpoint}/auth`, authRouter);
 // server.use(morgan('tiny'));
 server.use(morgan('dev'));
 // documentation
