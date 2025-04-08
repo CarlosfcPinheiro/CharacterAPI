@@ -2,15 +2,17 @@
 A 2D character creator *REST API* to compose a full-stack application. The application was made to apply some concepts that I never used on my previous projects, so ignore the bugs :)
 
 ## 📖 Summary
-- [Features](#-features)
-- [Tecnologies](#-tecnologies)
-- [How-to-Run-it-Locally](#-how-to-run-it-locally)
-    - [Requirements](#-requirements)
-    - [1.Clone-the-Repository](#1-clone-the-repository)
-    - [2.Run-docker-compose-file](#2-run-docker-compose-file)
-- [Routes](#routes)
+- [1. Features](#1--features)
+- [2. Tecnologies](#2--tecnologies)
+- [3. How-to-Run-it-Locally](#3--how-to-run-it-locally)
+    - [3.1 Requirements](#31-requirements)
+    - [3.2 Clone-the-Repository](#32-clone-the-repository)
+    - [3.3 Run-docker-compose-file](#33-run-docker-compose-file)
+- [4. Routes](#4--routes)
+- [5. Documentation](#5--documentation)
+- [6. To-do list](#5--to-do-list)
 
-## ⚙️ Features
+## 1. ⚙️ Features
 The application provides the features:
 - CRUD operations
 - Json responses
@@ -18,7 +20,7 @@ The application provides the features:
 - Error handling
 - Image building
 
-## 📦 Tecnologies
+## 2. 📦 Tecnologies
 - Express (server construction)
 - Sequelize (ORM)
 - PostgreSQL (Database)
@@ -26,10 +28,10 @@ The application provides the features:
 - Jest (Unit Tests)
 - Docker (Image building)
 
-## 🏠 How to run it locally?
+## 3. 🏠 How to run it locally?
 The application has a docker-compose file to make more easy to build and use.
 
-### 📝 Requirements
+### 3.1 📝 Requirements
 If you use 🪟Windows or 🍎Mac:
 - Docker desktop
 - WSL 2 (or other tool to Linux virtualization)
@@ -40,13 +42,13 @@ Or to 🐧Linux users:
 - Docker package installed (see how to do it with your package manager)
 - Git
 
-### 1. Clone the repository
+### 3.2 Clone the repository
 First of all, clone this repository and enter on directory:
 ```bash
 git clone https://github.com/CarlosfcPinheiro/CharacterAPI.git && cd CharacterAPI
 ```
 
-### 2. Run docker-compose file
+### 3.3 Run docker-compose file
 And now, you can run the docker-compose file in the root directory of the project.
 ```bash
 docker-compose up --build -d
@@ -54,5 +56,16 @@ docker-compose up --build -d
 
 API is ready now!
 
-## Routes
+## 4. ➡️ Routes
 The base URI to all requests is ```/api/v1```.
+
+## 5. 📄 Documentation
+API docs with Swagger pattern is avaliable at ```/docs```.
+
+## 6. ✅ To-do list
+To-do new features/refactor list
+- [ ] Dev database version
+- [ ] Character swagger docs
+- [ ] Typescript implementation
+- [ ] Character service unit tests
+- [ ] Change import pattern to ES modules
