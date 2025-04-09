@@ -5,13 +5,13 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Y API',
+            title: 'Charp API',
             version: '1.0.0',
-            description: 'Documentação da API do Y'
+            description: 'charp API swagger documentation'
         },
         servers:[
             {
-                url: 'http://localhost:3000',
+                url: 'http://localhost:3000/api/v1',
                 description: 'Local'
             },
         ],
