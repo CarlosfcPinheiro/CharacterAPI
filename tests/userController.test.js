@@ -1,12 +1,12 @@
 // Testing User controller
 // importing usefull resources
-const userController = require('../controllers/user.js');
-const User = require('../models/user.js');
-const {hashPassword} = require('../utils/hash.js');
+const userController = require('../src/controllers/user.js');
+const User = require('../src/models/user.js');
+const {hashPassword} = require('../src/utils/hash.js');
 
 // Mocking User model and hash
-jest.mock('../models/user.js');
-jest.mock('../utils/hash.js');
+jest.mock('../src/models/user.js');
+jest.mock('../src/utils/hash.js');
 
 describe('User controller', () => {
     // Mocking res methods

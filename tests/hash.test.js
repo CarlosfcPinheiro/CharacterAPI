@@ -1,5 +1,5 @@
 // Unit hash functions tests
-const {hashPassword, verifyPassword} = require('../utils/hash.js');
+const {hashPassword, verifyPassword} = require('../src/utils/hash.js');
 // Test suite
 describe('Hash password functions', () => {
     const testpassword = 'test123!@#';
