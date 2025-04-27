@@ -1,11 +1,11 @@
 // Testing char controller
 // importing usefull resources
-const charController = require('../controllers/char.js');
-const Char = require('../models/char.js');
+const charController = require('../src/controllers/char.js');
+const Char = require('../src/models/char.js');
 
 // Mocking Char model
-jest.mock('../models/char.js');
-jest.mock('../models/user.js');
+jest.mock('../src/models/char.js');
+jest.mock('../src/models/user.js');
 
 describe('Char controller', () => {
     const res = {
