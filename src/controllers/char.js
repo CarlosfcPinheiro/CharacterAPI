@@ -120,7 +120,7 @@ const changeCharById = async (req, res) => {
             });
         }
 
-        const [updated] = await charService.updateCharById(id, newCharData);
+        const updated = await charService.updateCharById(id, data);
         if (!updated) {
             return res.status(204).end();
         }
