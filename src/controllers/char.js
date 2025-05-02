@@ -1,6 +1,4 @@
-// Importing models
 const Char = require('../models/char.js');
-const User = require('../models/user.js');
 
 const charService = require('../services/charService.js');
 

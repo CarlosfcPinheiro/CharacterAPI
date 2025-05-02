@@ -1,6 +1,4 @@
-// Importing Models
 const User = require('../models/user.js');
-// Import operations
 const { Op } = require('sequelize');
 
 const userService = require('../services/userService.js');
