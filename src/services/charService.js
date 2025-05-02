@@ -63,6 +63,10 @@ class CharService {
 
         return updated;
     }
+
+    async deleteCharById(id) {
+        await Char.destroy(id);
+    }
 }
 
 module.exports = new CharService();
