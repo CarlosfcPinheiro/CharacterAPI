@@ -1,7 +1,5 @@
 // Importing Models
 const User = require('../models/user.js');
-// Import hash functions
-const { hashPassword } = require('../utils/hash.js');
 // Import operations
 const { Op } = require('sequelize');
 
@@ -14,7 +12,7 @@ const getAllUsers = async (req, res) => {
     try {
         const { sortBy = 'username', order = 'ASC', username = '' } = req.query;
 
-        const users = userService.getAllUsers(sortBy, order, username);
+        const users = await userService.getAllUsers(sortBy, order, username);
 
         res.status(200).json({
             success: true,
@@ -34,7 +32,7 @@ const getAllUsers = async (req, res) => {
 const getSingleUserById = async (req, res) => {
     const { id } = req.params;
     try {
-        const user = await User.findByPk(id);
+        const user = await userService.getSingleUserById(id);
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -70,8 +68,11 @@ const registerUser = async (req, res) => {
             });
         }
 
-        password = await hashPassword(password);
-        const newUser = await User.create({ username, email, password });
+        const newUser = await userService.registerUser({
+            username,
+            email,
+            password,
+        });
 
         res.status(201).json({
             success: true,
@@ -108,7 +109,7 @@ const deleteUser = async (req, res) => {
             });
         }
 
-        await user.destroy();
+        await userService.deleteUser(user);
         res.status(200).json({
             success: true,
             message: 'User deleted successfully.',
@@ -135,7 +136,7 @@ const changeCredentialsUser = async (req, res) => {
             });
         }
 
-        const [updated] = await User.update(data, { where: { id: id } });
+        const updated = await userService.changeCredentialsUser(id, data);
         if (!updated) {
             return res.status(204).json({
                 success: true,
@@ -143,7 +144,7 @@ const changeCredentialsUser = async (req, res) => {
             });
         }
 
-        const user = await User.findByPk(id);
+        const user = await userService.getSingleUserById(id);
         res.status(200).json({
             success: true,
             message: 'User has been updated successfully.',
